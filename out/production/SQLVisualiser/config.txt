@@ -1,0 +1,9 @@
+{
+    "name": "JSONtest123",
+    "test array": [
+         {
+            "test1" : "yes",
+            "test2" : "yes123"
+        }
+     ]
+}
