@@ -47,8 +47,6 @@ public class SqlUserDAOImplementation implements UserDAO {
     }
 
 
-    //make this code nicer, maybe new class to map the resulstset with different parameters?
-    //or superclass with common parameters
     @Override
     public List<User> findAll() {
         ArrayList<User> users = new ArrayList<>();
@@ -106,6 +104,7 @@ public class SqlUserDAOImplementation implements UserDAO {
         return user;
     }
 
+
     /**
      * Help method to create whole User from the resultset
      *
@@ -127,6 +126,10 @@ public class SqlUserDAOImplementation implements UserDAO {
         return u;
     }
 
+    @Override
+    public boolean removeUserById() {
+        return false;
+    }
 
     //use thread here to listen to changes at certain intervals like once each 20 sec?
     //how to detect change?

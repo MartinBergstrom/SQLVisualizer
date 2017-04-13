@@ -6,6 +6,7 @@ import model.User;
 import javax.swing.*;
 import javax.swing.event.MenuEvent;
 import javax.swing.event.MenuListener;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -17,9 +18,11 @@ import java.awt.event.KeyEvent;
  */
 public class MenuBar extends JMenuBar implements MenuListener,ActionListener{
     private JMenu menuExit;
+
     private JMenuItem showAllItem;
     private JMenuItem insertItem;
     private JMenuItem updateItem;
+    private JMenuItem deleteItem;
 
     private Controller controller;
     private MainPanel mainPanel;
@@ -34,6 +37,14 @@ public class MenuBar extends JMenuBar implements MenuListener,ActionListener{
         menuDatabase.addMenuListener(this);
         add(menuDatabase);
 
+//        JMenu filler = new JMenu("");
+//        filler.setPreferredSize(new Dimension(360,0));
+//        filler.setFocusable(false);
+//        filler.setEnabled(false);
+//        add(filler);
+        //align the Exit menu to the top right corner
+        add(Box.createHorizontalGlue());
+
         menuExit = new JMenu("Exit");
         menuExit.setMnemonic(KeyEvent.VK_X);
         menuExit.addMenuListener(this);
@@ -47,6 +58,10 @@ public class MenuBar extends JMenuBar implements MenuListener,ActionListener{
         insertItem = new JMenuItem("Insert Data");
         insertItem.addActionListener(this);
         menuDatabase.add(insertItem);
+
+        deleteItem = new JMenuItem("Delete Data");
+        deleteItem.addActionListener(this);
+        menuDatabase.add(deleteItem);
 
         updateItem = new JMenuItem("Update");
         updateItem.addActionListener(this);
@@ -102,13 +117,15 @@ public class MenuBar extends JMenuBar implements MenuListener,ActionListener{
                 User u = new User(Integer.parseInt(id),fname,sname,city, Integer.parseInt(age));
                 //Calls method to insert into datbase
                 if(!controller.insertNewUser(u)){
-                    System.out.println("Could not add user");
+                    System.out.println("Could not add user, try again and check values");
                 }
             }
             callUpdateLatest();
         }else if(e.getSource().equals(updateItem)){
             System.out.println("Update the database");
             callUpdateWhole();
+        }else if(e.getSource().equals(deleteItem)){
+            System.out.println("delete dis shit");
         }
     }
 

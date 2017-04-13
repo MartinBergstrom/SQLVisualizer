@@ -1,11 +1,7 @@
 package controller;
 
-import GUI.GUIMain;
 import model.User;
 import model.UserDAO;
-
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.List;
 
 /**
@@ -25,9 +21,7 @@ public class Controller{
     }
 
     public User getLatestAdded(){
-        User u = dao.getLatestAddedUser();
-        System.out.println(u.toString());
-        return u;
+        return dao.getLatestAddedUser();
     }
 
     public boolean insertNewUser(User user){

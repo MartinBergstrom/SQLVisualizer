@@ -31,8 +31,7 @@ public class MainPanel extends JPanel{
         tcm.getColumn(1).setPreferredWidth(90);
         tcm.getColumn(2).setPreferredWidth(110);
         tcm.getColumn(3).setPreferredWidth(90);
-        tcm.getColumn(4).setPreferredWidth(30);
-
+        tcm.getColumn(4).setPreferredWidth(40);
 
         JScrollPane scrollPane = new JScrollPane(table);
         add(scrollPane);
