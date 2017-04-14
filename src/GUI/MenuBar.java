@@ -20,11 +20,14 @@ import java.util.List;
  */
 public class MenuBar extends JMenuBar implements MenuListener{
     private JMenu menuExit;
+    private JMenu menuUpdateThread;
 
     private JMenuItem showAllItem;
     private JMenuItem insertItem;
     private JMenuItem updateItem;
     private JMenuItem deleteByIdItem;
+
+    private JMenuItem startRTUpdate;
 
     private MainPanel mainPanel;
 
@@ -34,6 +37,13 @@ public class MenuBar extends JMenuBar implements MenuListener{
         JMenu menuDatabase = new JMenu("Database");
         menuDatabase.addMenuListener(this);
         add(menuDatabase);
+
+        menuUpdateThread = new JMenu("RT Update");
+        //menuDatabase.addMenuListener(this);
+        add(menuUpdateThread);
+
+
+        //add filler to set exit menu in right corner
         add(Box.createHorizontalGlue());
 
         menuExit = new JMenu("Exit");
@@ -41,12 +51,12 @@ public class MenuBar extends JMenuBar implements MenuListener{
         menuExit.addMenuListener(this);
         add(menuExit);
 
+        //Menu items for database
         showAllItem = new JMenuItem("Show All");
         menuDatabase.add(showAllItem);
 
         insertItem = new JMenuItem("Insert Data");
         menuDatabase.add(insertItem);
-
 
         updateItem = new JMenuItem("Update");
         menuDatabase.add(updateItem);
@@ -56,6 +66,10 @@ public class MenuBar extends JMenuBar implements MenuListener{
 
         deleteByIdItem = new JMenuItem("Delete Data By Id");
         submenu.add(deleteByIdItem);
+
+        //Menu items for Update
+        startRTUpdate = new JMenuItem("Start RT update");
+        menuUpdateThread.add(startRTUpdate);
 
     }
 
@@ -128,5 +142,8 @@ public class MenuBar extends JMenuBar implements MenuListener{
     }
     public void addDeleteByIdListener(ActionListener dbyl){
         deleteByIdItem.addActionListener(dbyl);
+    }
+    public void addUpdateRTListener(ActionListener urtl){
+        startRTUpdate.addActionListener(urtl);
     }
 }

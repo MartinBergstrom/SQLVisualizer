@@ -63,4 +63,7 @@ public class GUIMain extends JFrame{
     public void addDeleteByIdListener(ActionListener dbyl){
         menuBar.addDeleteByIdListener(dbyl);
     }
+    public void addUpdateRTListener(ActionListener urtl){
+        menuBar.addUpdateRTListener(urtl);
+    }
 }

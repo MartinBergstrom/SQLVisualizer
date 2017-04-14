@@ -8,6 +8,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 
+import static java.lang.Thread.sleep;
+
 /**
  * Created by Martin on 2017-04-10.
  *
@@ -25,15 +27,19 @@ public class Controller{
         this.dao = dao;
         this.view = view;
 
+        //add the listeners to the GUI elements
         view.addShowAllListener(new ShowAllListener());
         view.addInsertListener(new InsertListener());
         view.addUpdateListener(new UpdateListener());
         view.addDeleteByIdListener(new DeleteByIdListener());
-        //addListenersToGUI();
+        view.addUpdateRTListener(new UpdateRTListener());
 
         showAllPressed = false;
     }
 
+    /**
+     * Help method to update the view
+     */
     private void updateAll(){
         view.updateAll(getAllUsers());
     }
@@ -46,20 +52,35 @@ public class Controller{
         return dao.removeUserById(id);
     }
 
-    public User getLatestAdded(){
-        return dao.getLatestAddedUser();
-    }
 
     private boolean insertNewUser(User user){
         return dao.addUser(user);
     }
 
-    public void sayHi(){
-        System.out.println("Hi");
+    //maybbe use wait/notify instead of this polling(?)
+    private void startUpdateThread(){
+        Runnable r = new Runnable() {
+            @Override
+            public void run() {
+                while (true){
+                    System.out.println("thread running");
+                    if(dao.checkUpdate()){
+                        updateAll();
+                        System.out.println("detected change, called update");
+                    }
+                    try{
+                        Thread.sleep(4000);
+                    }catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        };
+        new Thread(r).start();
     }
 
     ///// INNER LISTENER CLASSES /////
-        class ShowAllListener implements ActionListener{
+        private class ShowAllListener implements ActionListener{
             @Override
             public void actionPerformed(ActionEvent e) {
                 if(!showAllPressed){
@@ -69,7 +90,7 @@ public class Controller{
             }
         }
 
-        class InsertListener implements ActionListener{
+        private class InsertListener implements ActionListener{
             @Override
             public void actionPerformed(ActionEvent e) {
                 User u = view.createUserByInsert();
@@ -82,22 +103,29 @@ public class Controller{
             }
         }
 
-        class UpdateListener implements ActionListener{
+        private class UpdateListener implements ActionListener{
             @Override
             public void actionPerformed(ActionEvent e) {
                 updateAll();
             }
         }
 
-        class DeleteByIdListener implements ActionListener{
+        private class DeleteByIdListener implements ActionListener{
             @Override
             public void actionPerformed(ActionEvent e) {
                 System.out.println("pressed delete by id");
                 int id = view.getRemoveId();
                 if(removeUserById(id)){
-                    System.out.println("Successfully removed");
+                    System.out.println("Successfully removed user with id: " + id);
                     updateAll();
                 }
+            }
+        }
+
+        private class UpdateRTListener implements ActionListener{
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                startUpdateThread();
             }
         }
 }

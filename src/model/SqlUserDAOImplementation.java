@@ -4,6 +4,8 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static java.lang.Thread.sleep;
+
 /**
  * Created by Martin on 2017-04-10.
  *
@@ -15,11 +17,13 @@ public class SqlUserDAOImplementation implements UserDAO {
     private DBConnector dbConnector;
     private Connection connect;
     private Statement stmt;
+    private int numberRows;
 
 
     public SqlUserDAOImplementation() {
         //  new ReadConfig();
         dbConnector = new DBConnector();
+        numberRows = 0;
         stmt = null;
         try {
              connect = dbConnector.getConnection();
@@ -34,6 +38,10 @@ public class SqlUserDAOImplementation implements UserDAO {
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
+
+        //check nubmer of rows in current database
+        numberRows = findAll().size();
+        checkUpdate(); //starts the thread
     }
 
     private ResultSet executeQueryGetResultset(String query){
@@ -86,9 +94,14 @@ public class SqlUserDAOImplementation implements UserDAO {
             e.printStackTrace();
             return false;
         }
+        numberRows++;
         return true;
     }
 
+    /**
+     * Not used
+     * @return
+     */
     @Override
     public User getLatestAddedUser() {
         User user = null;
@@ -135,19 +148,18 @@ public class SqlUserDAOImplementation implements UserDAO {
         }catch (SQLException e){
             return false;
         }
+        numberRows--;
         return true;
     }
 
-    //use thread here to listen to changes at certain intervals like once each 20 sec?
-    //how to detect change?
     @Override
     public boolean checkUpdate() {
-//        Runnable r = new Runnable() {
-//            @Override
-//            public void run() {
-//                System.out.println("do shit");
-//            }
-//        };
+        int newSize = findAll().size();
+        if(numberRows!=newSize){
+            numberRows = newSize;
+            return true;
+        }
         return false;
     }
+
 }
