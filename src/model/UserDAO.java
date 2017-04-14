@@ -14,8 +14,6 @@ public interface UserDAO {
     public boolean addUser(User user);
     public User getLatestAddedUser();
     public boolean checkUpdate();
-    public boolean removeUserById();
+    public boolean removeUserById(int id);
 
-    public boolean updateUserByName(String username);
-    public boolean updateUserById(int id);
 }

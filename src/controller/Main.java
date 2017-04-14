@@ -13,10 +13,11 @@ import model.UserDAO;
 public class Main {
     public static void main(String[] args) {
         UserDAO model = new SqlUserDAOImplementation();
+        GUIMain view = new GUIMain("SQL database Visualizeeerr of doom");
 
-        Controller c = new Controller(model);
+        Controller c = new Controller(model, view);
 
-        GUIMain view = new GUIMain("SQL database Visualizeeerr of doom",c);
+
 
     }
 }

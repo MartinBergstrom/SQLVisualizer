@@ -127,7 +127,8 @@ public class SqlUserDAOImplementation implements UserDAO {
     }
 
     @Override
-    public boolean removeUserById() {
+    public boolean removeUserById(int id) {
+        String query = "DELETE ";
         return false;
     }
 
@@ -141,16 +142,6 @@ public class SqlUserDAOImplementation implements UserDAO {
 //                System.out.println("do shit");
 //            }
 //        };
-        return false;
-    }
-
-    @Override
-    public boolean updateUserByName(String username) {
-        return false;
-    }
-
-    @Override
-    public boolean updateUserById(int id) {
         return false;
     }
 }
