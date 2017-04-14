@@ -11,7 +11,8 @@ import java.util.List;
 /**
  * Created by Martin on 2017-04-10.
  *
- * The view has an instance of the controller and the controller acts on the model
+ * Controller class to connect the model and the view,
+ * adds actionlisteners to the different GUI elements
  *
  */
 public class Controller{
@@ -45,7 +46,6 @@ public class Controller{
     }
 
     private void addListenersToGUI(){
-        //&& !showAllPressed
         view.getShowAllItem().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
