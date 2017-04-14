@@ -24,13 +24,26 @@ public class Controller{
     public Controller(UserDAO dao, GUIMain view) {
         this.dao = dao;
         this.view = view;
-        addListenersToGUI();
+
+        view.addShowAllListener(new ShowAllListener());
+        view.addInsertListener(new InsertListener());
+        view.addUpdateListener(new UpdateListener());
+        view.addDeleteByIdListener(new DeleteByIdListener());
+        //addListenersToGUI();
 
         showAllPressed = false;
     }
 
+    private void updateAll(){
+        view.updateAll(getAllUsers());
+    }
+
     private List<User> getAllUsers(){
         return dao.findAll();
+    }
+
+    private boolean removeUserById(int id){
+        return dao.removeUserById(id);
     }
 
     public User getLatestAdded(){
@@ -45,8 +58,8 @@ public class Controller{
         System.out.println("Hi");
     }
 
-    private void addListenersToGUI(){
-        view.getShowAllItem().addActionListener(new ActionListener() {
+    ///// INNER LISTENER CLASSES /////
+        class ShowAllListener implements ActionListener{
             @Override
             public void actionPerformed(ActionEvent e) {
                 if(!showAllPressed){
@@ -54,31 +67,37 @@ public class Controller{
                     showAllPressed = true;
                 }
             }
-        });
-        view.getInsertItem().addActionListener(new ActionListener() {
+        }
+
+        class InsertListener implements ActionListener{
             @Override
             public void actionPerformed(ActionEvent e) {
                 User u = view.createUserByInsert();
                 if(u!=null){
                     if(insertNewUser(u)){
                         System.out.println("Successfully inserted new User");
-                        view.updateLatestAdded(u); //Update the view with new user
+                        view.updateLatestAdded(u);
                     }
                 }
             }
-        });
-        view.getUpdateItem().addActionListener(new ActionListener() {
+        }
+
+        class UpdateListener implements ActionListener{
             @Override
             public void actionPerformed(ActionEvent e) {
-                view.updateAll(getAllUsers());
+                updateAll();
             }
-        });
-        view.getDeleteByIdItem().addActionListener(new ActionListener() {
+        }
+
+        class DeleteByIdListener implements ActionListener{
             @Override
             public void actionPerformed(ActionEvent e) {
                 System.out.println("pressed delete by id");
+                int id = view.getRemoveId();
+                if(removeUserById(id)){
+                    System.out.println("Successfully removed");
+                    updateAll();
+                }
             }
-        });
-
-    }
+        }
 }

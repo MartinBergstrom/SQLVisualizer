@@ -128,8 +128,14 @@ public class SqlUserDAOImplementation implements UserDAO {
 
     @Override
     public boolean removeUserById(int id) {
-        String query = "DELETE ";
-        return false;
+        String query = "DELETE FROM " + TABLE_USERS +
+                " WHERE Id=" + id + ";";
+        try{
+            stmt.execute(query);
+        }catch (SQLException e){
+            return false;
+        }
+        return true;
     }
 
     //use thread here to listen to changes at certain intervals like once each 20 sec?

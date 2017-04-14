@@ -90,6 +90,10 @@ public class MenuBar extends JMenuBar implements MenuListener{
         return u;
     }
 
+    public int getRemoveId() {
+        return Integer.parseInt(JOptionPane.showInputDialog("Enter id of the user to remove"));
+    }
+
     public void callUpdateWhole(List<User> users){
         mainPanel.clearTable();
         showAll(users);
@@ -98,22 +102,6 @@ public class MenuBar extends JMenuBar implements MenuListener{
 
     public void callUpdateLatest(User newU){
         mainPanel.addRow(newU);
-    }
-
-    public JMenuItem getShowAllItem(){
-        return showAllItem;
-    }
-
-    public JMenuItem getInsertItem() {
-        return insertItem;
-    }
-
-    public JMenuItem getUpdateItem() {
-        return updateItem;
-    }
-
-    public JMenuItem getDeleteByIdItem() {
-        return deleteByIdItem;
     }
 
     @Override
@@ -128,4 +116,17 @@ public class MenuBar extends JMenuBar implements MenuListener{
 
     @Override
     public void menuCanceled(MenuEvent e) {}
+
+    public void addShowAllListener(ActionListener sal) {
+        showAllItem.addActionListener(sal);
+    }
+    public void addInsertListener(ActionListener il) {
+        insertItem.addActionListener(il);
+    }
+    public void addUpdateListener(ActionListener ul){
+        updateItem.addActionListener(ul);
+    }
+    public void addDeleteByIdListener(ActionListener dbyl){
+        deleteByIdItem.addActionListener(dbyl);
+    }
 }

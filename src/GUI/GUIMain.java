@@ -2,9 +2,11 @@ package GUI;
 
 import controller.Controller;
 import model.User;
+import org.omg.PortableInterceptor.ACTIVE;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
 import java.util.List;
 
 /**
@@ -30,34 +32,35 @@ public class GUIMain extends JFrame{
 
         setVisible(true);
     }
-
-    public User createUserByInsert(){
-        return menuBar.createNewInsertUser();
+    public int getRemoveId() {
+        return menuBar.getRemoveId();
     }
-    public void updateLatestAdded(User newUser){
-        menuBar.callUpdateLatest(newUser);
-    }
-
-    public JMenuItem getShowAllItem(){
-        return menuBar.getShowAllItem();
-    }
-
-    public JMenuItem getInsertItem(){
-        return menuBar.getInsertItem();
-    }
-
-    public JMenuItem getUpdateItem(){
-        return menuBar.getUpdateItem();
-    }
-
-    public JMenuItem getDeleteByIdItem(){
-        return menuBar.getDeleteByIdItem();
-    }
-
     public void updateShowAll(List<User> users){
         menuBar.showAll(users);
     }
     public void updateAll(List<User> users){
         menuBar.callUpdateWhole(users);
+    }
+    public void updateLatestAdded(User newUser){
+        menuBar.callUpdateLatest(newUser);
+    }
+
+    public User createUserByInsert(){
+        return menuBar.createNewInsertUser();
+    }
+
+    public void addInsertListener(ActionListener il){
+        menuBar.addInsertListener(il);
+    }
+
+    public void addShowAllListener(ActionListener sal) {
+        menuBar.addShowAllListener(sal);
+    }
+
+    public void addUpdateListener(ActionListener ul){
+        menuBar.addUpdateListener(ul);
+    }
+    public void addDeleteByIdListener(ActionListener dbyl){
+        menuBar.addDeleteByIdListener(dbyl);
     }
 }
