@@ -15,9 +15,7 @@ public class Main {
         UserDAO model = new SqlUserDAOImplementation();
         GUIMain view = new GUIMain("SQL database Visualizeeerr of doom");
 
-        Controller c = new Controller(model, view);
-
-
+        Controller controller = new Controller(model, view);
 
     }
 }

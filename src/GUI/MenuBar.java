@@ -1,47 +1,37 @@
 package GUI;
 
-import controller.Controller;
 import model.User;
 
 import javax.swing.*;
 import javax.swing.event.MenuEvent;
 import javax.swing.event.MenuListener;
-import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
-import java.util.*;
-import java.util.List;
 
 /**
  * Created by Martin on 2017-04-12.
  *
+ * Class to show the MenuBar
  *
  */
 public class MenuBar extends JMenuBar implements MenuListener{
     private JMenu menuExit;
     private JMenu menuUpdateThread;
-
+    //Items in the Database menu
     private JMenuItem showAllItem;
     private JMenuItem insertItem;
     private JMenuItem updateItem;
     private JMenuItem deleteByIdItem;
-
+    //Items in the update menu
     private JMenuItem startRTUpdate;
 
-    private MainPanel mainPanel;
-
-    public MenuBar(MainPanel mainp) {
-        this.mainPanel = mainp;
-
+    public MenuBar() {
         JMenu menuDatabase = new JMenu("Database");
         menuDatabase.addMenuListener(this);
         add(menuDatabase);
 
         menuUpdateThread = new JMenu("RT Update");
-        //menuDatabase.addMenuListener(this);
         add(menuUpdateThread);
-
 
         //add filler to set exit menu in right corner
         add(Box.createHorizontalGlue());
@@ -51,7 +41,7 @@ public class MenuBar extends JMenuBar implements MenuListener{
         menuExit.addMenuListener(this);
         add(menuExit);
 
-        //Menu items for database
+        //Menu items for database//
         showAllItem = new JMenuItem("Show All");
         menuDatabase.add(showAllItem);
 
@@ -66,17 +56,20 @@ public class MenuBar extends JMenuBar implements MenuListener{
 
         deleteByIdItem = new JMenuItem("Delete Data By Id");
         submenu.add(deleteByIdItem);
+        // / / / / / / / / / / / / / /
 
         //Menu items for Update
         startRTUpdate = new JMenuItem("Start RT update");
         menuUpdateThread.add(startRTUpdate);
+        // / / / / / / / / / / / / / /
 
     }
 
-    public void showAll(java.util.List<User> users){
-        mainPanel.addUsers(users);
-    }
-
+    /**
+     * JOptionPane pop-up to let the user add a new user to the database by filling in allt the information required
+     *
+     * @return the newly created user or null if the a field is empty or cancel button was pressed
+     */
     public User createNewInsertUser(){
         User u = null;
         JTextField field1 = new JTextField();
@@ -99,7 +92,14 @@ public class MenuBar extends JMenuBar implements MenuListener{
             String sname = field3.getText();
             String city = field4.getText();
             String age = field5.getText();
-            u = new User(Integer.parseInt(id), fname, sname, city, Integer.parseInt(age));
+            //check that all fields are valid
+            if(!id.equals("") && !fname.equals("") && !sname.equals("") && !city.equals("") &&!age.equals("")){
+                u = new User(Integer.parseInt(id), fname, sname, city, Integer.parseInt(age));
+            }else{
+                System.out.println("ERROR, NOT ALL FIELDS WERE SUBMITTED PROPERLY");
+                JOptionPane.showMessageDialog(this,"Error, validate inputs in the fields and try again. " +
+                        "All fields must be submitted");
+            }
         }
         return u;
     }
@@ -108,15 +108,6 @@ public class MenuBar extends JMenuBar implements MenuListener{
         return Integer.parseInt(JOptionPane.showInputDialog("Enter id of the user to remove"));
     }
 
-    public void callUpdateWhole(List<User> users){
-        mainPanel.clearTable();
-        showAll(users);
-    }
-
-
-    public void callUpdateLatest(User newU){
-        mainPanel.addRow(newU);
-    }
 
     @Override
     public void menuSelected(MenuEvent me) {
@@ -131,6 +122,7 @@ public class MenuBar extends JMenuBar implements MenuListener{
     @Override
     public void menuCanceled(MenuEvent e) {}
 
+    ///// Methods to add the listeners to the different menu items /////
     public void addShowAllListener(ActionListener sal) {
         showAllItem.addActionListener(sal);
     }

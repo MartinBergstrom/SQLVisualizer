@@ -25,45 +25,19 @@ public class GUIMain extends JFrame{
         setLayout(new FlowLayout());
 
         mainPanel = new MainPanel(new FlowLayout());
-        menuBar = new MenuBar(mainPanel);
+        menuBar = new MenuBar();
         setJMenuBar(menuBar);
 
         add(mainPanel);
 
         setVisible(true);
     }
-    public int getRemoveId() {
-        return menuBar.getRemoveId();
-    }
-    public void updateShowAll(List<User> users){
-        menuBar.showAll(users);
-    }
-    public void updateAll(List<User> users){
-        menuBar.callUpdateWhole(users);
-    }
-    public void updateLatestAdded(User newUser){
-        menuBar.callUpdateLatest(newUser);
+
+    public MenuBar getMenubar(){
+        return menuBar;
     }
 
-    public User createUserByInsert(){
-        return menuBar.createNewInsertUser();
-    }
-
-    public void addInsertListener(ActionListener il){
-        menuBar.addInsertListener(il);
-    }
-
-    public void addShowAllListener(ActionListener sal) {
-        menuBar.addShowAllListener(sal);
-    }
-
-    public void addUpdateListener(ActionListener ul){
-        menuBar.addUpdateListener(ul);
-    }
-    public void addDeleteByIdListener(ActionListener dbyl){
-        menuBar.addDeleteByIdListener(dbyl);
-    }
-    public void addUpdateRTListener(ActionListener urtl){
-        menuBar.addUpdateRTListener(urtl);
+    public MainPanel getMainPanel(){
+        return mainPanel;
     }
 }

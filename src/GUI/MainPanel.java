@@ -1,6 +1,5 @@
 package GUI;
 
-import controller.Controller;
 import model.User;
 
 import javax.swing.*;
@@ -12,7 +11,7 @@ import java.util.List;
 /**
  * Created by Martin on 2017-04-10.
  *
- * This will be the main panel for showing the database contents, like excel
+ * This will be the main panel for showing the database contents, in an excel-like format
  */
 public class MainPanel extends JPanel{
     private DefaultTableModel model;
@@ -23,7 +22,13 @@ public class MainPanel extends JPanel{
         String[] column_names = {"Id", "Firstname", "Surname", "City", "Age"};
         Object[][] data = {};
 
-        model = new DefaultTableModel(data, column_names);
+        //Create the model with non-editable cells
+        model = new DefaultTableModel(data, column_names){
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
         JTable table = new JTable(model);
         table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
         TableColumnModel tcm = table.getColumnModel();
@@ -46,6 +51,12 @@ public class MainPanel extends JPanel{
         model.addRow(FormatData.getFormattedData(s));
     }
 
+    /**
+     * Adds all the users from the list into the JTable by formatting
+     * the data and adding the rows
+     *
+     * @param users the list of the users to add
+     */
     public void addUsers(List<User> users){
         StringBuilder sb = new StringBuilder();
         for(User u: users){
@@ -55,10 +66,18 @@ public class MainPanel extends JPanel{
         }
     }
 
+    /**
+     * Adds a single new user to the JTable
+     *
+     * @param u the new user to add into the JTable
+     */
     public void addRow(User u){
         formatAndAddDataString(u.toString());
     }
 
+    /**
+     * Clears the whole table
+     */
     public void clearTable(){
         model.setRowCount(0);
     }
